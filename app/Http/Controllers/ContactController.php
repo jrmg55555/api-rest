@@ -35,9 +35,9 @@ class ContactController extends Controller
      * @param  \App\Contact  $contact
      * @return \Illuminate\Http\Response
      */
-    public function show(Contact $contact)
+    public function show(Request $request, Int $id)
     {
-        //$contact = Contact::find($id);
+        $contact = Contact::find($id);
         return response()->json($contact);
     }
 
@@ -59,8 +59,10 @@ class ContactController extends Controller
      * @param  \App\Contact  $contact
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Contact $contact)
+    public function destroy(Request $request, Int $id)
     {
-        //
+        $contact = Contact::find($id);
+        $contact->delete();
+        return response()->json('Contato deletado com sucesso!', 200);
     }
 }
