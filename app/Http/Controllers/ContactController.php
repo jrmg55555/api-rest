@@ -62,7 +62,18 @@ class ContactController extends Controller
      */
     public function update(Request $request, Contact $contact)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|min:6|max:255',
+            'email' => 'required|email|unique:contacts,' . $contact->id
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+            return response()->json($errors, 400);
+        }
+
+        $contact->update($request->all());
+        return response()->json($contact);
     }
 
     /**
